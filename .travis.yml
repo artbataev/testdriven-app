@@ -12,8 +12,11 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
 
-script:
+before_script:
   - docker-compose up -d --build
+  - docker-compose logs
+
+script:
   - docker-compose exec users python manage.py test
   - docker-compose exec users flake8 project
 
