@@ -8,6 +8,7 @@ from project.api.models import User
 users_blueprint = Blueprint("users", __name__, template_folder="./templates")
 api = Api(users_blueprint)
 
+
 @users_blueprint.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
@@ -17,6 +18,7 @@ def index():
         db.session.commit()
     users = User.query.all()
     return render_template('index.html', users=users)
+
 
 class UsersPing(Resource):
     def get(self):
@@ -60,7 +62,8 @@ class UsersList(Resource):
                 }
                 return response_object, 201
             else:
-                response_object["message"] = "Sorry. That email already exists."
+                response_object["message"] = \
+                    "Sorry. That email already exists."
                 return response_object, 400
         except exc.IntegrityError:
             db.session.rollback()
